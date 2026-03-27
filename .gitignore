@@ -39,3 +39,14 @@ yarn-error.*
 # generated native folders
 /ios
 /android
+
+# SQLite database files
+*.db
+*.db-shm
+*.db-wal
+
+# Jest cache
+.jest-cache/
+
+# EAS
+.eas/
