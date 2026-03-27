@@ -3,7 +3,7 @@ import {
   View, Text, TextInput, Pressable, FlatList,
   StyleSheet, KeyboardAvoidingView, Platform,
 } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useWeightStore } from '../stores/weightStore';
 import { useSettingsStore } from '../stores/settingsStore';
@@ -108,6 +108,7 @@ export default function WeightTrackerScreen() {
   };
 
   return (
+    <SafeAreaView style={styles.safeArea} edges={['bottom']}>
     <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
       <WeightInputRow
         inputValue={inputValue}
@@ -127,10 +128,12 @@ export default function WeightTrackerScreen() {
         <WeightHistoryList history={weightStore.history} unit={weightUnit} bottomInset={insets.bottom} />
       )}
     </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: { flex: 1, backgroundColor: colors.bg },
   container: { flex: 1, backgroundColor: colors.bg },
   inputSection: {
     backgroundColor: colors.surface,

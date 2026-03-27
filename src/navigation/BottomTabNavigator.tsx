@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import DashboardScreen from '../screens/DashboardScreen';
 import WeightTrackerScreen from '../screens/WeightTrackerScreen';
 import WorkoutStack from './WorkoutStack';
@@ -29,6 +30,9 @@ function tabIcon(focused: boolean, active: IoniconsName, inactive: IoniconsName)
 }
 
 export default function BottomTabNavigator() {
+  const insets = useSafeAreaInsets();
+  const tabBarHeight = 60 + insets.bottom;
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -38,8 +42,8 @@ export default function BottomTabNavigator() {
           backgroundColor: colors.surface,
           borderTopColor: colors.border,
           borderTopWidth: 1,
-          paddingBottom: 4,
-          height: 60,
+          paddingBottom: insets.bottom || 4,
+          height: tabBarHeight,
         },
         tabBarLabelStyle: {
           fontSize: 11,
