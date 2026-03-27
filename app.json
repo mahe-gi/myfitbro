@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "fitness-tracker-app",
-    "slug": "fitness-tracker-app",
+    "name": "MyFitBro",
+    "slug": "myfitbro",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
