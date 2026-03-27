@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "MyFitBro",
-    "slug": "myfitbro",
+    "slug": "fitness-tracker-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -34,6 +34,7 @@
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "owner": "mahe8"
   }
 }
