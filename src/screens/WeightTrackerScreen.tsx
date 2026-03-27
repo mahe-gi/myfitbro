@@ -3,6 +3,7 @@ import {
   View, Text, TextInput, Pressable, FlatList,
   StyleSheet, KeyboardAvoidingView, Platform,
 } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useWeightStore } from '../stores/weightStore';
 import { useSettingsStore } from '../stores/settingsStore';
@@ -45,7 +46,7 @@ function WeightInputRow({
   );
 }
 
-function WeightHistoryList({ history, unit }: { history: WeightEntry[]; unit: string }) {
+function WeightHistoryList({ history, unit, bottomInset }: { history: WeightEntry[]; unit: string; bottomInset: number }) {
   const renderItem = ({ item, index }: { item: WeightEntry; index: number }) => {
     const prev = history[index + 1];
     const diff = prev ? item.value - prev.value : null;
@@ -82,7 +83,7 @@ function WeightHistoryList({ history, unit }: { history: WeightEntry[]; unit: st
       data={history}
       keyExtractor={(item) => item.date}
       renderItem={renderItem}
-      contentContainerStyle={styles.listContent}
+      contentContainerStyle={[styles.listContent, { paddingBottom: spacing.md + bottomInset }]}
     />
   );
 }
@@ -92,6 +93,7 @@ export default function WeightTrackerScreen() {
   const { weightUnit } = useSettingsStore();
   const [inputValue, setInputValue] = useState('');
   const [validationError, setValidationError] = useState<string | null>(null);
+  const insets = useSafeAreaInsets();
 
   useEffect(() => { weightStore.loadHistory(); }, []);
 
@@ -122,7 +124,7 @@ export default function WeightTrackerScreen() {
           buttonLabel="Log Weight"
         />
       ) : (
-        <WeightHistoryList history={weightStore.history} unit={weightUnit} />
+        <WeightHistoryList history={weightStore.history} unit={weightUnit} bottomInset={insets.bottom} />
       )}
     </KeyboardAvoidingView>
   );

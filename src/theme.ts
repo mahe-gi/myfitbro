@@ -1,26 +1,26 @@
 export const colors = {
-  primary: '#6C63FF',
-  primaryLight: '#EEF0FF',
-  primaryDark: '#4B44CC',
-  success: '#22C55E',
-  successLight: '#DCFCE7',
+  primary: '#6B6FE8',       // matched to logo color
+  primaryLight: '#EEEEFF',
+  primaryDark: '#5558CC',
+  success: '#10B981',
+  successLight: '#D1FAE5',
   danger: '#EF4444',
   dangerLight: '#FEE2E2',
   warning: '#F59E0B',
   warningLight: '#FEF3C7',
 
-  bg: '#F8F9FB',
+  bg: '#F9FAFB',
   surface: '#FFFFFF',
-  surfaceAlt: '#F1F3F9',
-  border: '#E4E7EF',
-  borderLight: '#F0F2F8',
+  surfaceAlt: '#F3F4F6',
+  border: '#E5E7EB',
+  borderLight: '#F3F4F6',
 
   text: '#111827',
   textSecondary: '#6B7280',
   textTertiary: '#9CA3AF',
   textInverse: '#FFFFFF',
 
-  tabActive: '#6C63FF',
+  tabActive: '#6B6FE8',
   tabInactive: '#9CA3AF',
 };
 
@@ -49,10 +49,23 @@ export const font = {
 
 export const shadow = {
   card: {
-    shadowColor: '#6C63FF',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 3,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.06,
+    shadowRadius: 6,
+    elevation: 2,
   },
+  glow: {
+    shadowColor: '#6B6FE8',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.12,
+    shadowRadius: 10,
+    elevation: 4,
+  },
+};
+
+export const gloss = {
+  overlay: 'rgba(255,255,255,0.6)',
+  overlayStrong: 'rgba(255,255,255,0.9)',
+  border: 'rgba(255,255,255,0.8)',
 };

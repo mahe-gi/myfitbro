@@ -11,6 +11,7 @@ import {
   Platform,
 } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFoodStore } from '../stores/foodStore';
 import { validateRecipe } from '../utils/validation';
 import ValidationError from '../components/ValidationError';
@@ -18,6 +19,7 @@ import EmptyState from '../components/EmptyState';
 import ConfirmDialog from '../components/ConfirmDialog';
 import type { Recipe, MealCategory } from '../types/db';
 import type { FoodStackParamList } from '../navigation/FoodStack';
+import { colors, spacing, radius, font } from '../theme';
 
 type Props = StackScreenProps<FoodStackParamList, 'RecipeManager'>;
 
@@ -42,11 +44,13 @@ function RecipeForm({
   onSave,
   onCancel,
   error,
+  bottomInset = 0,
 }: {
   initial?: RecipeFormState;
   onSave: (form: RecipeFormState) => void;
   onCancel: () => void;
   error: string | null;
+  bottomInset?: number;
 }) {
   const [form, setForm] = useState<RecipeFormState>(initial ?? EMPTY_FORM);
 
@@ -54,7 +58,11 @@ function RecipeForm({
     setForm((prev) => ({ ...prev, [field]: val }));
 
   return (
-    <ScrollView style={styles.formContainer} keyboardShouldPersistTaps="handled">
+    <ScrollView
+      style={styles.formContainer}
+      contentContainerStyle={{ paddingBottom: spacing.lg + bottomInset }}
+      keyboardShouldPersistTaps="handled"
+    >
       <Text style={styles.formTitle}>{initial ? 'Edit Recipe' : 'New Recipe'}</Text>
       <TextInput
         style={styles.input}
@@ -107,6 +115,7 @@ export default function RecipeManagerScreen({ route, navigation }: Props) {
   const pickerMode = route.params?.pickerMode ?? false;
   const mealCategory = route.params?.mealCategory;
   const foodStore = useFoodStore();
+  const insets = useSafeAreaInsets();
 
   const [showForm, setShowForm] = useState(false);
   const [editingRecipe, setEditingRecipe] = useState<Recipe | null>(null);
@@ -218,6 +227,7 @@ export default function RecipeManagerScreen({ route, navigation }: Props) {
             setFormError(null);
           }}
           error={formError}
+          bottomInset={insets.bottom}
         />
       </KeyboardAvoidingView>
     );
@@ -253,7 +263,7 @@ export default function RecipeManagerScreen({ route, navigation }: Props) {
           data={foodStore.recipes}
           keyExtractor={(item) => String(item.id)}
           renderItem={renderRecipeRow}
-          contentContainerStyle={styles.listContent}
+          contentContainerStyle={[styles.listContent, { paddingBottom: spacing.md + insets.bottom }]}
         />
       )}
 
@@ -270,127 +280,131 @@ export default function RecipeManagerScreen({ route, navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.bg,
   },
   newRecipeButton: {
-    margin: 16,
-    backgroundColor: '#007AFF',
+    margin: spacing.md,
+    backgroundColor: colors.primary,
     paddingVertical: 12,
-    borderRadius: 8,
+    borderRadius: radius.sm,
     alignItems: 'center',
   },
   newRecipeButtonText: {
-    color: '#fff',
-    fontSize: 16,
+    color: colors.text,
+    fontSize: font.md,
     fontWeight: '600',
   },
   listContent: {
-    paddingHorizontal: 16,
-    paddingBottom: 16,
+    paddingHorizontal: spacing.md,
+    paddingBottom: spacing.md,
   },
   recipeRow: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: colors.border,
   },
   recipeInfo: {
     flex: 1,
   },
   recipeName: {
-    fontSize: 16,
+    fontSize: font.md,
     fontWeight: '600',
-    color: '#333',
+    color: colors.text,
   },
   recipeMacros: {
-    fontSize: 13,
-    color: '#888',
+    fontSize: font.sm,
+    color: colors.textSecondary,
     marginTop: 2,
   },
   rowActions: {
     flexDirection: 'row',
-    gap: 8,
+    gap: spacing.sm,
   },
   editButton: {
-    backgroundColor: '#e8f0fe',
+    backgroundColor: colors.primaryLight,
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 6,
+    borderRadius: radius.sm,
   },
   editButtonText: {
-    color: '#007AFF',
-    fontSize: 14,
+    color: colors.primary,
+    fontSize: font.sm,
     fontWeight: '500',
   },
   deleteButton: {
-    backgroundColor: '#fdecea',
+    backgroundColor: colors.dangerLight,
     paddingHorizontal: 12,
     paddingVertical: 6,
-    borderRadius: 6,
+    borderRadius: radius.sm,
   },
   deleteButtonText: {
-    color: '#FF3B30',
-    fontSize: 14,
+    color: colors.danger,
+    fontSize: font.sm,
     fontWeight: '500',
   },
   addButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: colors.primary,
     paddingHorizontal: 14,
     paddingVertical: 8,
-    borderRadius: 6,
+    borderRadius: radius.sm,
   },
   addButtonText: {
-    color: '#fff',
-    fontSize: 14,
+    color: colors.text,
+    fontSize: font.sm,
     fontWeight: '600',
   },
   formContainer: {
     flex: 1,
-    padding: 16,
+    padding: spacing.md,
   },
   formTitle: {
-    fontSize: 20,
+    fontSize: font.xl,
     fontWeight: '700',
-    marginBottom: 16,
-    color: '#333',
+    marginBottom: spacing.md,
+    color: colors.text,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
+    borderColor: colors.border,
+    borderRadius: radius.sm,
     paddingHorizontal: 12,
     paddingVertical: 10,
-    fontSize: 16,
+    fontSize: font.md,
     marginBottom: 12,
+    color: colors.text,
+    backgroundColor: colors.surface,
   },
   formButtons: {
     flexDirection: 'row',
     gap: 12,
-    marginTop: 8,
+    marginTop: spacing.sm,
   },
   cancelButton: {
     flex: 1,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: colors.surfaceAlt,
     paddingVertical: 12,
-    borderRadius: 8,
+    borderRadius: radius.sm,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   cancelButtonText: {
-    color: '#333',
-    fontSize: 16,
+    color: colors.textSecondary,
+    fontSize: font.md,
     fontWeight: '600',
   },
   saveButton: {
     flex: 1,
-    backgroundColor: '#007AFF',
+    backgroundColor: colors.primary,
     paddingVertical: 12,
-    borderRadius: 8,
+    borderRadius: radius.sm,
     alignItems: 'center',
   },
   saveButtonText: {
-    color: '#fff',
-    fontSize: 16,
+    color: colors.text,
+    fontSize: font.md,
     fontWeight: '600',
   },
 });

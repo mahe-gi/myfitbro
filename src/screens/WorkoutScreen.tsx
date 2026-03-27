@@ -6,10 +6,11 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { colors, spacing, radius, font } from '../theme';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { RouteProp } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
@@ -259,6 +260,7 @@ export default function WorkoutScreen() {
     : null;
 
   const hasSets = workoutStore.sets.length > 0;
+  const insets = useSafeAreaInsets();
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -321,7 +323,7 @@ export default function WorkoutScreen() {
         </View>
 
         {/* Fixed bottom: input row + log button */}
-        <View style={styles.inputArea}>
+        <View style={[styles.inputArea, { paddingBottom: spacing.md + insets.bottom }]}>
           <View style={styles.stepperRow}>
             <View style={styles.stepperGroup}>
               <Text style={styles.stepperLabel}>Weight ({weightUnit})</Text>
@@ -361,7 +363,7 @@ export default function WorkoutScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#fff' },
+  safeArea: { flex: 1, backgroundColor: colors.bg },
   flex: { flex: 1 },
 
   // Exercise selector
@@ -369,108 +371,113 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 16,
+    padding: spacing.md,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: colors.border,
   },
   exerciseInfo: { flex: 1 },
-  exerciseName: { fontSize: 17, fontWeight: '600', color: '#111' },
-  exerciseMuscle: { fontSize: 13, color: '#888', marginTop: 2 },
-  exercisePlaceholder: { fontSize: 15, color: '#aaa', flex: 1 },
+  exerciseName: { fontSize: font.lg, fontWeight: '600', color: colors.text },
+  exerciseMuscle: { fontSize: font.sm, color: colors.textSecondary, marginTop: 2 },
+  exercisePlaceholder: { fontSize: font.md, color: colors.textTertiary, flex: 1 },
   changeBtn: {
-    backgroundColor: '#007AFF',
+    backgroundColor: colors.primary,
     paddingHorizontal: 14,
     paddingVertical: 8,
-    borderRadius: 8,
+    borderRadius: radius.sm,
     marginLeft: 12,
   },
-  changeBtnText: { color: '#fff', fontWeight: '600', fontSize: 14 },
+  changeBtnText: { color: colors.text, fontWeight: '700', fontSize: font.sm },
 
   // PR badge
   prBadge: {
     alignSelf: 'flex-start',
-    marginHorizontal: 16,
-    marginTop: 8,
-    backgroundColor: '#FFF3CD',
+    marginHorizontal: spacing.md,
+    marginTop: spacing.sm,
+    backgroundColor: colors.warningLight,
     paddingHorizontal: 10,
     paddingVertical: 4,
-    borderRadius: 12,
+    borderRadius: radius.full,
   },
-  prText: { fontSize: 13, color: '#856404', fontWeight: '600' },
+  prText: { fontSize: font.sm, color: colors.warning, fontWeight: '600' },
 
   // Overload banner
   overloadBanner: {
     margin: 12,
     padding: 12,
-    backgroundColor: '#D4EDDA',
-    borderRadius: 8,
+    backgroundColor: colors.successLight,
+    borderRadius: radius.sm,
+    borderLeftWidth: 3,
+    borderLeftColor: colors.success,
   },
-  overloadText: { color: '#155724', fontSize: 14 },
+  overloadText: { color: colors.success, fontSize: font.sm },
 
   // Set list
   setList: { flex: 1 },
-  separator: { height: 1, backgroundColor: '#eee', marginLeft: 16 },
+  separator: { height: 1, backgroundColor: colors.border, marginLeft: spacing.md },
 
   // Set row (view mode)
   setRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: spacing.md,
     paddingVertical: 12,
   },
   setRowInfo: { flex: 1 },
-  setRowExercise: { fontSize: 14, fontWeight: '600', color: '#333' },
-  setRowValues: { fontSize: 14, color: '#555', marginTop: 2 },
-  setRowActions: { flexDirection: 'row', gap: 8 },
+  setRowExercise: { fontSize: font.sm, fontWeight: '600', color: colors.text },
+  setRowValues: { fontSize: font.sm, color: colors.textSecondary, marginTop: 2 },
+  setRowActions: { flexDirection: 'row', gap: spacing.sm },
   editBtn: {
     paddingHorizontal: 12,
     paddingVertical: 6,
-    backgroundColor: '#E8F0FE',
-    borderRadius: 6,
+    backgroundColor: colors.primaryLight,
+    borderRadius: radius.sm,
   },
-  editBtnText: { color: '#1A73E8', fontWeight: '600', fontSize: 13 },
+  editBtnText: { color: colors.primary, fontWeight: '600', fontSize: font.sm },
   deleteBtn: {
     paddingHorizontal: 12,
     paddingVertical: 6,
-    backgroundColor: '#FDECEA',
-    borderRadius: 6,
+    backgroundColor: colors.dangerLight,
+    borderRadius: radius.sm,
   },
-  deleteBtnText: { color: '#D93025', fontWeight: '600', fontSize: 13 },
+  deleteBtnText: { color: colors.danger, fontWeight: '600', fontSize: font.sm },
 
   // Set row (edit mode)
   setRowEditing: {
     padding: 12,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: colors.surfaceAlt,
   },
   setRowEditControls: {
     flexDirection: 'row',
-    gap: 16,
-    marginTop: 8,
+    gap: spacing.md,
+    marginTop: spacing.sm,
   },
   saveBtn: {
     paddingHorizontal: 14,
     paddingVertical: 6,
-    backgroundColor: '#34A853',
-    borderRadius: 6,
+    backgroundColor: colors.success,
+    borderRadius: radius.sm,
   },
-  saveBtnText: { color: '#fff', fontWeight: '600', fontSize: 13 },
+  saveBtnText: { color: colors.textInverse, fontWeight: '600', fontSize: font.sm },
   cancelBtn: {
     paddingHorizontal: 14,
     paddingVertical: 6,
-    backgroundColor: '#e0e0e0',
-    borderRadius: 6,
+    backgroundColor: colors.surfaceAlt,
+    borderRadius: radius.sm,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
-  cancelBtnText: { color: '#333', fontWeight: '600', fontSize: 13 },
+  cancelBtnText: { color: colors.textSecondary, fontWeight: '600', fontSize: font.sm },
 
   // Notes
   notesInput: {
     margin: 12,
     padding: 10,
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    fontSize: 14,
-    color: '#333',
+    borderColor: colors.border,
+    borderRadius: radius.sm,
+    fontSize: font.sm,
+    color: colors.text,
+    backgroundColor: colors.surface,
     minHeight: 48,
     maxHeight: 80,
   },
@@ -478,9 +485,9 @@ const styles = StyleSheet.create({
   // Bottom input area
   inputArea: {
     borderTopWidth: 1,
-    borderTopColor: '#eee',
-    padding: 16,
-    backgroundColor: '#fff',
+    borderTopColor: colors.border,
+    padding: spacing.md,
+    backgroundColor: colors.surface,
   },
   stepperRow: {
     flexDirection: 'row',
@@ -488,12 +495,12 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   stepperGroup: { alignItems: 'center', gap: 4 },
-  stepperLabel: { fontSize: 13, color: '#555', marginBottom: 4 },
+  stepperLabel: { fontSize: font.sm, color: colors.textSecondary, marginBottom: 4 },
   logBtn: {
-    backgroundColor: '#007AFF',
+    backgroundColor: colors.primary,
     paddingVertical: 14,
-    borderRadius: 10,
+    borderRadius: radius.md,
     alignItems: 'center',
   },
-  logBtnText: { color: '#fff', fontSize: 17, fontWeight: '700' },
+  logBtnText: { color: colors.text, fontSize: font.lg, fontWeight: '700' },
 });

@@ -55,7 +55,7 @@ export default function BottomTabNavigator() {
         name="Dashboard"
         component={DashboardScreen}
         options={{
-          title: 'Home',
+          title: 'MyFitBro',
           tabBarLabel: 'Home',
           tabBarIcon: ({ focused }) => tabIcon(focused, 'home', 'home-outline'),
         }}

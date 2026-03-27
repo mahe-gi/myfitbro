@@ -7,12 +7,13 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSettingsStore } from '../stores/settingsStore';
 import { exportAllData, importAllData, DatabaseError } from '../db/backup';
 import type { WeightUnit } from '../types/db';
-import { colors, spacing, radius, font, shadow } from '../theme';
+import { colors, spacing, radius, font } from '../theme';
+import GlossCard from '../components/GlossCard';
 
 type IoniconsName = React.ComponentProps<typeof Ionicons>['name'];
 
 function SectionCard({ children }: { children: React.ReactNode }) {
-  return <View style={styles.card}>{children}</View>;
+  return <GlossCard style={styles.card}>{children}</GlossCard>;
 }
 
 function SectionTitle({ label }: { label: string }) {
@@ -128,6 +129,7 @@ export default function SettingsScreen() {
     <ScrollView style={styles.screen} contentContainerStyle={styles.container}>
       <WeightUnitToggle selected={weightUnit} onSelect={setWeightUnit} />
       <BackupSection />
+      <Text style={styles.watermark}>Developed by MaheTechSystems</Text>
     </ScrollView>
   );
 }
@@ -136,10 +138,8 @@ const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.bg },
   container: { padding: spacing.md, gap: spacing.md },
   card: {
-    backgroundColor: colors.surface,
     borderRadius: radius.md,
     padding: spacing.md,
-    ...shadow.card,
   },
   sectionTitle: {
     fontSize: font.sm,
@@ -180,4 +180,10 @@ const styles = StyleSheet.create({
   actionLabel: { fontSize: font.md, fontWeight: '600', color: colors.text },
   actionSub: { fontSize: font.sm, color: colors.textTertiary, marginTop: 1 },
   divider: { height: 1, backgroundColor: colors.borderLight, marginVertical: spacing.xs },
+  watermark: {
+    textAlign: 'center',
+    fontSize: font.sm,
+    color: colors.textTertiary,
+    paddingVertical: spacing.lg,
+  },
 });

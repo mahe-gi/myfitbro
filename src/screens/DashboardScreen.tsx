@@ -11,7 +11,8 @@ import { useWeightStore } from '../stores/weightStore';
 import { useFoodStore } from '../stores/foodStore';
 import { useWorkoutStore } from '../stores/workoutStore';
 import { useSettingsStore } from '../stores/settingsStore';
-import { colors, spacing, radius, font, shadow } from '../theme';
+import { colors, spacing, radius, font } from '../theme';
+import GlossCard from '../components/GlossCard';
 
 type DashboardNavProp = CompositeNavigationProp<
   BottomTabNavigationProp<BottomTabParamList, 'Dashboard'>,
@@ -39,15 +40,17 @@ function DashCard({
 }) {
   return (
     <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.75} accessibilityRole="button">
-      <View style={[styles.iconWrap, { backgroundColor: iconBg }]}>
-        <Ionicons name={icon} size={22} color={iconColor} />
-      </View>
-      <View style={styles.cardBody}>
-        <Text style={styles.cardTitle}>{title}</Text>
-        <Text style={styles.cardValue}>{value}</Text>
-        {sub ? <Text style={styles.cardSub}>{sub}</Text> : null}
-      </View>
-      <Ionicons name="chevron-forward" size={18} color={colors.textTertiary} />
+      <GlossCard style={styles.cardInner}>
+        <View style={[styles.iconWrap, { backgroundColor: iconBg }]}>
+          <Ionicons name={icon} size={22} color={iconColor} />
+        </View>
+        <View style={styles.cardBody}>
+          <Text style={styles.cardTitle}>{title}</Text>
+          <Text style={styles.cardValue}>{value}</Text>
+          {sub ? <Text style={styles.cardSub}>{sub}</Text> : null}
+        </View>
+        <Ionicons name="chevron-forward" size={18} color={colors.textTertiary} />
+      </GlossCard>
     </TouchableOpacity>
   );
 }
@@ -138,14 +141,13 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   card: {
-    backgroundColor: colors.surface,
-    borderRadius: radius.md,
-    padding: spacing.md,
     marginBottom: spacing.sm,
+  },
+  cardInner: {
+    padding: spacing.md,
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.md,
-    ...shadow.card,
   },
   iconWrap: {
     width: 44,

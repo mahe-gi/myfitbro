@@ -7,10 +7,12 @@ import {
   StyleSheet,
 } from 'react-native';
 import { StackScreenProps } from '@react-navigation/stack';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useFoodStore } from '../stores/foodStore';
 import EmptyState from '../components/EmptyState';
 import type { MealCategory, FoodLog, Recipe } from '../types/db';
 import type { FoodStackParamList } from '../navigation/FoodStack';
+import { colors, spacing, radius, font } from '../theme';
 
 type Props = StackScreenProps<FoodStackParamList, 'FoodTracker'>;
 
@@ -76,6 +78,7 @@ function MacroSummaryBar({
 export default function FoodTrackerScreen({ navigation }: Props) {
   const foodStore = useFoodStore();
   const [selectedCategory, setSelectedCategory] = useState<MealCategory>('Lunch');
+  const insets = useSafeAreaInsets();
 
   const today = new Date().toISOString().split('T')[0];
 
@@ -142,7 +145,7 @@ export default function FoodTrackerScreen({ navigation }: Props) {
         />
       )}
 
-      <Pressable style={styles.addButton} onPress={handleAddMeal}>
+      <Pressable style={[styles.addButton, { bottom: insets.bottom + 16 }]} onPress={handleAddMeal}>
         <Text style={styles.addButtonText}>+ Add Meal</Text>
       </Pressable>
     </View>
@@ -152,87 +155,88 @@ export default function FoodTrackerScreen({ navigation }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.bg,
   },
   macroBar: {
     flexDirection: 'row',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.surface,
     paddingVertical: 12,
-    paddingHorizontal: 8,
+    paddingHorizontal: spacing.sm,
     justifyContent: 'space-around',
     borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+    borderBottomColor: colors.border,
   },
   macroItem: {
     alignItems: 'center',
   },
   macroValue: {
-    fontSize: 16,
+    fontSize: font.md,
     fontWeight: '700',
-    color: '#333',
+    color: colors.primary,
   },
   macroLabel: {
     fontSize: 11,
-    color: '#888',
+    color: colors.textSecondary,
     marginTop: 2,
   },
   tabsRow: {
     flexDirection: 'row',
-    paddingHorizontal: 8,
-    paddingVertical: 8,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.sm,
     gap: 6,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: colors.border,
+    backgroundColor: colors.surface,
   },
   tab: {
     flex: 1,
     paddingVertical: 8,
-    borderRadius: 6,
-    backgroundColor: '#f0f0f0',
+    borderRadius: radius.sm,
+    backgroundColor: colors.surfaceAlt,
     alignItems: 'center',
   },
   tabActive: {
-    backgroundColor: '#007AFF',
+    backgroundColor: colors.primary,
   },
   tabText: {
     fontSize: 11,
-    color: '#555',
+    color: colors.textSecondary,
     fontWeight: '500',
   },
   tabTextActive: {
-    color: '#fff',
+    color: colors.text,
     fontWeight: '700',
   },
   listContent: {
-    padding: 16,
-    paddingBottom: 80,
+    padding: spacing.md,
+    paddingBottom: 90,
   },
   logRow: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: colors.border,
   },
   logInfo: {
     flex: 1,
   },
   logName: {
-    fontSize: 15,
+    fontSize: font.md,
     fontWeight: '600',
-    color: '#333',
+    color: colors.text,
   },
   logMacros: {
-    fontSize: 12,
-    color: '#888',
+    fontSize: font.sm,
+    color: colors.textSecondary,
     marginTop: 2,
   },
   deleteButton: {
-    padding: 8,
+    padding: spacing.sm,
   },
   deleteButtonText: {
-    color: '#FF3B30',
-    fontSize: 16,
+    color: colors.danger,
+    fontSize: font.md,
     fontWeight: '700',
   },
   emptyCategoryContainer: {
@@ -242,23 +246,23 @@ const styles = StyleSheet.create({
     padding: 32,
   },
   emptyCategoryText: {
-    fontSize: 15,
-    color: '#888',
+    fontSize: font.md,
+    color: colors.textSecondary,
     textAlign: 'center',
   },
   addButton: {
     position: 'absolute',
-    bottom: 24,
+    bottom: 16,
     left: 24,
     right: 24,
-    backgroundColor: '#007AFF',
+    backgroundColor: colors.primary,
     paddingVertical: 14,
-    borderRadius: 10,
+    borderRadius: radius.md,
     alignItems: 'center',
   },
   addButtonText: {
-    color: '#fff',
-    fontSize: 16,
+    color: colors.text,
+    fontSize: font.md,
     fontWeight: '700',
   },
 });
