@@ -12,6 +12,8 @@ import type { StackNavigationProp } from '@react-navigation/stack';
 import type { WorkoutStackParamList } from '../navigation/WorkoutStack';
 import { useWorkoutStore } from '../stores/workoutStore';
 import type { Exercise } from '../types/db';
+import { colors, spacing, radius, font } from '../theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type NavProp = StackNavigationProp<WorkoutStackParamList, 'ExercisePicker'>;
 
@@ -19,6 +21,7 @@ export default function ExercisePickerScreen() {
   const navigation = useNavigation<NavProp>();
   const exercises = useWorkoutStore((s) => s.exercises);
   const [query, setQuery] = useState('');
+  const insets = useSafeAreaInsets();
 
   const filtered = query.trim()
     ? exercises.filter((e) =>
@@ -35,6 +38,7 @@ export default function ExercisePickerScreen() {
       <TextInput
         style={styles.searchBar}
         placeholder="Search exercises…"
+        placeholderTextColor={colors.textTertiary}
         value={query}
         onChangeText={setQuery}
         autoFocus
@@ -51,6 +55,7 @@ export default function ExercisePickerScreen() {
         )}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         keyboardShouldPersistTaps="handled"
+        contentContainerStyle={{ paddingBottom: insets.bottom + spacing.md }}
       />
     </View>
   );
@@ -59,35 +64,36 @@ export default function ExercisePickerScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: colors.bg,
   },
   searchBar: {
-    margin: 12,
-    paddingHorizontal: 12,
+    margin: spacing.sm,
+    paddingHorizontal: spacing.md,
     paddingVertical: 10,
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    fontSize: 16,
-    backgroundColor: '#f9f9f9',
+    borderColor: colors.border,
+    borderRadius: radius.sm,
+    fontSize: font.md,
+    backgroundColor: colors.surface,
+    color: colors.text,
   },
   row: {
-    paddingHorizontal: 16,
+    paddingHorizontal: spacing.md,
     paddingVertical: 14,
   },
   name: {
-    fontSize: 16,
-    color: '#111',
+    fontSize: font.md,
+    color: colors.text,
     fontWeight: '500',
   },
   muscle: {
-    fontSize: 13,
-    color: '#888',
+    fontSize: font.sm,
+    color: colors.textSecondary,
     marginTop: 2,
   },
   separator: {
     height: 1,
-    backgroundColor: '#eee',
-    marginLeft: 16,
+    backgroundColor: colors.borderLight,
+    marginLeft: spacing.md,
   },
 });

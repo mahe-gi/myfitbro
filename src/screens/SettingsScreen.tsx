@@ -9,6 +9,7 @@ import { exportAllData, importAllData, DatabaseError } from '../db/backup';
 import type { WeightUnit } from '../types/db';
 import { colors, spacing, radius, font } from '../theme';
 import GlossCard from '../components/GlossCard';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type IoniconsName = React.ComponentProps<typeof Ionicons>['name'];
 
@@ -123,10 +124,11 @@ function BackupSection() {
 
 export default function SettingsScreen() {
   const { weightUnit, loadSettings, setWeightUnit } = useSettingsStore();
+  const insets = useSafeAreaInsets();
   useEffect(() => { loadSettings(); }, []);
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.container}>
+    <ScrollView style={styles.screen} contentContainerStyle={[styles.container, { paddingBottom: insets.bottom + spacing.md }]}>
       <WeightUnitToggle selected={weightUnit} onSelect={setWeightUnit} />
       <BackupSection />
       <Text style={styles.watermark}>Developed by MaheTechSystems</Text>

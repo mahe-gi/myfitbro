@@ -13,6 +13,7 @@ import { useWorkoutStore } from '../stores/workoutStore';
 import { useSettingsStore } from '../stores/settingsStore';
 import { colors, spacing, radius, font } from '../theme';
 import GlossCard from '../components/GlossCard';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type DashboardNavProp = CompositeNavigationProp<
   BottomTabNavigationProp<BottomTabParamList, 'Dashboard'>,
@@ -61,6 +62,7 @@ export default function DashboardScreen() {
   const foodStore = useFoodStore();
   const workoutStore = useWorkoutStore();
   const { weightUnit } = useSettingsStore();
+  const insets = useSafeAreaInsets();
   const today = new Date().toISOString().split('T')[0];
 
   useEffect(() => {
@@ -94,7 +96,7 @@ export default function DashboardScreen() {
   const dateLabel = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.container}>
+    <ScrollView style={styles.screen} contentContainerStyle={[styles.container, { paddingBottom: insets.bottom + spacing.md }]}>
       <Text style={styles.dateLabel}>{dateLabel}</Text>
 
       <DashCard
